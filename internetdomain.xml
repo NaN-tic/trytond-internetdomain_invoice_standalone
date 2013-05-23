@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- This file is part internetdomain_invoice_standalone module for Tryton.
+The COPYRIGHT file at the top level of this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data>
+        <!-- Groups -->
+        <record model="res.group" id="group_internetdomain_invoice_lines">
+            <field name="name">Internet Domain Invoice Lines</field>
+        </record>
+        <record model="res.user-res.group" id="user_admin_group_internetdomain_invoice_lines">
+            <field name="user" ref="res.user_admin"/>
+            <field name="group" ref="group_internetdomain_invoice_lines"/>
+        </record>
+
+        <record model="ir.ui.view" id="internetdomain_renewal_view_form">
+            <field name="model">internetdomain.renewal</field>
+            <field name="inherit" ref="internetdomain.internetdomain_renewal_view_form"/>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <data>
+                    <xpath
+                        expr="/form/notebook/page[@id='information']"
+                        position="after">
+                        <page string="Invoice Lines" id="invoice_lines">
+                            <field name="account_invoice_lines" readonly="1"
+                                view_ids="account_invoice.invoice_line_view_tree"/>
+                        </page>
+                    </xpath>
+                </data>
+                ]]>
+            </field>
+        </record>
+        <record model="ir.model.access" id="access_internetdomain_invoice_line">
+            <field name="model" search="[('model', '=', 'account.invoice.line')]"/>
+            <field name="group" ref="group_internetdomain_invoice_lines"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+    </data>
+</tryton>

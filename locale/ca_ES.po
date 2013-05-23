@@ -1,0 +1,27 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:internetdomain.renewal:"
+msgid "Product not available Account Revenue!"
+msgstr "El producte no disposa de cap compte."
+
+msgctxt "field:account.invoice.line,renewal:"
+msgid "Renewal"
+msgstr "Renovació"
+
+msgctxt "field:internetdomain.renewal,account_invoice_lines:"
+msgid "Invoice Lines"
+msgstr "Línies de factura"
+
+msgctxt "model:res.group,name:group_internetdomain_invoice_lines"
+msgid "Internet Domain Invoice Lines"
+msgstr "Linies de facturació dominis internet"
+
+msgctxt "view:internetdomain.domain:"
+msgid "Invoice Lines"
+msgstr "Línies de factura"
+
+msgctxt "view:internetdomain.renewal:"
+msgid "Invoice Lines"
+msgstr "Línies de factura"
