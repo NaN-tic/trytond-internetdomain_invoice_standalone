@@ -1,12 +1,9 @@
 #This file is part internetdomain_invoice_standalone module for Tryton.
 #The COPYRIGHT file at the top level of this repository contains
 #the full copyright notices and license terms.
-from trytond.model import ModelView, fields
+from trytond.model import fields
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
-from trytond.pyson import Eval
-from trytond.wizard import Wizard, StateView, StateTransition, Button
-from decimal import Decimal
 
 __all__ = ['Renewal']
 __metaclass__ = PoolMeta
