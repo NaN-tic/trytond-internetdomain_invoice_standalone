@@ -12,25 +12,18 @@ __metaclass__ = PoolMeta
 class Renewal:
     'Renewal'
     __name__ = 'internetdomain.renewal'
-    account_invoice_lines = fields.One2Many('account.invoice.line','renewal',
+    account_invoice_lines = fields.One2Many('account.invoice.line', 'renewal',
         'Invoice Lines')
-
-    @classmethod
-    def __setup__(cls):
-        super(Renewal, cls).__setup__()
-        cls._error_messages.update({
-            'missing_account_revenue': 'Product not available Account Revenue!',
-            })
 
     def _get_invoice_description(self):
         '''
-        Return description renewal
+        Return the renewal description
         :param renewal: the BrowseRecord of the renewal
         :return: str
         '''
-        description = self.domain.name + '' \
-            '(' + str(self.date_renewal) + ' a ' \
-            '' + str(self.date_expire) + ')'
+        description = (self.domain.name +
+            ' (' + str(self.date_renewal) +
+            ' / ' + str(self.date_expire) + ')')
         return description
 
     def get_invoice_lines_to_create(self):
@@ -44,6 +37,8 @@ class Renewal:
                 party=self.domain.party,
                 product=product,
                 qty=1)
+            vals['invoice'] = None
+            vals['invoice_type'] = 'out_invoice'
             vals['description'] += ' %s' % self._get_invoice_description()
             vals['renewal'] = self.id
             to_create.append(vals)

@@ -1,16 +1,16 @@
 =====================================================
-Linias de factura a partir de renovaciones de dominio
+Líneas de factura a partir de renovaciones de dominio
 =====================================================
 
-En el momento de realizar una renovación en el dominio, esta genera lineas de factura
-a partir de los productos asociados en el dominio. Estas lineas de factura, después
-las podrá facturar mediante el módulo Account Invoice Standalone.
+En el momento de realizar una renovación de un dominio, se crearán líneas de
+factura a partir de los productos asociados al dominio. Estas líneas de factura
+se podrán facturar después mediante el módulo Account Invoice Standalone.
 
-Generación de las lineas de factura
+Generación de las líneas de factura
 -----------------------------------
 
-Se generá una o más lineas de factura cuando:
+Se creará una o más líneas de factura cuando:
 
-* Cuando genere una nueva renovación.
-* El dominio debe de disponer de uno o más productos. Por cada producto del dominio,
-  se generá una nueva linea de factura.
+* Se genere una nueva renovación de dominio.
+* El dominio disponga de uno o más productos. Por cada producto del dominio se
+  creará una nueva línea de factura.
