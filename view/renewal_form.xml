@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- This file is part internetdomain_invoice_standalone module for Tryton.
+The COPYRIGHT file at the top level of this repository contains the full copyright notices and license terms. -->
+<data>
+    <xpath
+        expr="/form/notebook/page[@id='information']"
+        position="after">
+        <page string="Invoice Lines" id="invoice_lines">
+            <field name="account_invoice_lines" readonly="1"
+                view_ids="account_invoice.invoice_line_view_tree"/>
+        </page>
+    </xpath>
+</data>
