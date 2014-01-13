@@ -10,48 +10,47 @@ __metaclass__ = PoolMeta
 
 
 class Renewal:
-    'Renewal'
     __name__ = 'internetdomain.renewal'
-    account_invoice_lines = fields.One2Many('account.invoice.line', 'renewal',
-        'Invoice Lines')
+    account_invoice_lines = fields.Function(fields.One2Many('account.invoice.line', None,
+        'Invoice Lines'), 'get_account_invoice_lines')
 
-    def _get_invoice_description(self):
-        '''
-        Return the renewal description
-        :param renewal: the BrowseRecord of the renewal
-        :return: str
-        '''
-        description = (self.domain.name +
-            ' (' + str(self.date_renewal) +
-            ' / ' + str(self.date_expire) + ')')
-        return description
+    def get_account_invoice_lines(self, name):
+        InvoiceLine = Pool().get('account.invoice.line')
+        lines = InvoiceLine.search([
+                ('origin', 'like', 'internetdomain.renewal,%s' % self.id),
+                ])
+        return [l.id for l in lines]
 
     def get_invoice_lines_to_create(self):
         InvoiceLine = Pool().get('account.invoice.line')
-        #Only create lines if they don't exists
-        if (len(self.domain.products) <= len(self.account_invoice_lines)):
-            return []
+
+        if not self.domain.products:
+            return None
+
         to_create = []
         for product in self.domain.products:
-            vals = InvoiceLine.get_invoice_line_product(
+            invoice_line = InvoiceLine.get_invoice_line_product(
                 party=self.domain.party,
                 product=product,
                 qty=1)
-            vals['invoice'] = None
-            vals['invoice_type'] = 'out_invoice'
-            vals['description'] += ' %s' % self._get_invoice_description()
-            vals['renewal'] = self.id
-            to_create.append(vals)
+            invoice_line.invoice_type = 'out_invoice'
+            invoice_line.description = '%s - %s' % (
+                invoice_line.description,
+                self._get_invoice_description(),
+                )
+            invoice_line.origin = self
+            to_create.append(invoice_line)
         return to_create
 
     @classmethod
     def create(cls, values):
-        InvoiceLine = Pool().get('account.invoice.line')
         renewals = super(Renewal, cls).create(values)
-        to_create = []
-        for renewal in renewals:
-            to_create.extend(renewal.get_invoice_lines_to_create())
-        if(len(to_create) > 0):
-            with Transaction().set_user(0, set_context=True):
-                InvoiceLine.create(to_create)
+        with Transaction().set_context({
+                'invoice_type': 'out_invoice',
+                'standalone': True,
+                }):
+            for renewal in renewals:
+                for line in renewal.get_invoice_lines_to_create():
+                    line.origin = renewal
+                    line.save()
         return renewals
