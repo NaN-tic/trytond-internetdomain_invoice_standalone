@@ -21,6 +21,17 @@ class Renewal:
                 ])
         return [l.id for l in lines]
 
+    def _get_invoice_line_description(self):
+        '''
+        Return the renewal description
+        :param renewal: the BrowseRecord of the renewal
+        :return: str
+        '''
+        description = (self.domain.name +
+            ' (' + str(self.date_renewal) +
+            ' / ' + str(self.date_expire) + ')')
+        return description
+
     def get_invoice_lines_to_create(self):
         InvoiceLine = Pool().get('account.invoice.line')
 
@@ -36,7 +47,7 @@ class Renewal:
             invoice_line.invoice_type = 'out_invoice'
             invoice_line.description = '%s - %s' % (
                 invoice_line.description,
-                self._get_invoice_description(),
+                self._get_invoice_line_description(),
                 )
             invoice_line.origin = self
             to_create.append(invoice_line)
