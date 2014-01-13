@@ -4,9 +4,12 @@
 
 from trytond.pool import Pool
 from .internetdomain import *
+from .invoice import *
+
 
 def register():
     Pool.register(
         Renewal,
+        InvoiceLine,
         module='internetdomain_invoice_standalone', type_='model')
 
