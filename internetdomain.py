@@ -36,7 +36,7 @@ class Renewal:
         InvoiceLine = Pool().get('account.invoice.line')
 
         if not self.domain.products:
-            return None
+            return []
 
         to_create = []
         for product in self.domain.products:
