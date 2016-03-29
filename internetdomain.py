@@ -6,10 +6,10 @@ from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
 
 __all__ = ['Renewal']
-__metaclass__ = PoolMeta
 
 
 class Renewal:
+    __metaclass__ = PoolMeta
     __name__ = 'internetdomain.renewal'
     account_invoice_lines = fields.Function(fields.One2Many('account.invoice.line', None,
         'Invoice Lines'), 'get_account_invoice_lines')
